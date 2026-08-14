@@ -508,6 +508,12 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
     <div style="padding:10px 12px;background:#FAF8F5;border-radius:8px;margin-bottom:16px;font-size:0.85rem;color:var(--text-light);">
       🔍 <strong>Search:</strong> Press <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">⌘+Shift+L</kbd> (Mac) or <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">Ctrl+Shift+L</kbd> (Windows)
     </div>
+    <div style="padding:10px 12px;background:#F8F9FA;border-radius:8px;margin-bottom:16px;font-size:0.85rem;color:var(--text-light);">
+      📝 <strong>Custom Words:</strong> Press <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">⌘+Shift+\</kbd> (Mac) or <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">Ctrl+Shift+\</kbd> (Windows)
+    </div>
+    <div style="padding:10px 12px;background:#F8F9FA;border-radius:8px;margin-bottom:16px;font-size:0.85rem;color:var(--text-light);">
+      ⌨️ <strong>Study Hotkeys:</strong> <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">Space</kbd> flip · <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">A/S/D/F</kbd> rate · <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">←/→</kbd> navigate · <kbd style="background:#EEE;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:0.75rem;">B</kbd> bookmark
+    </div>
     <div class="btn-row">
       <button class="btn cancel" onclick="closeSettings()">Cancel</button>
       <button class="btn primary" onclick="saveSettings()">Save</button>
@@ -8079,6 +8085,11 @@ function getCustomWordData(word) {
   return custom.find(function(w) { return w.word === word; });
 }
 function handleCustomKeydown(e) {
+  if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.key === '\\' || e.key === '|')) {
+    e.preventDefault();
+    if (document.getElementById('customOverlay').classList.contains('active')) { closeCustomModal(); } else { openCustomModal(); }
+    return;
+  }
   if (document.getElementById('customOverlay').classList.contains('active')) {
     if (e.key === 'Escape') { e.preventDefault(); closeCustomModal(); return; }
     if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); document.getElementById('customMeaningInput').focus(); return; }
