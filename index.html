@@ -6858,29 +6858,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('keydown', handleStudyKeydown);
 
-// ============ INIT ============
-(function initApp() {
-  var lastStudent = localStorage.getItem('arnthai_lastStudent');
-  var profiles = getProfiles();
-  if (lastStudent && profiles.indexOf(lastStudent) !== -1) {
-    selectStudent(lastStudent);
-  } else if (profiles.length === 0) {
-    var name = prompt('Welcome! Enter your name to get started:');
-    if (name && name.trim()) {
-      var trimmed = name.trim();
-      var s = loadStudent(trimmed);
-      saveStudent(s);
-      selectStudent(trimmed);
-    } else {
-      renderStudentSelect();
-      document.getElementById('studentSelect').style.display = 'flex';
-    }
-  } else {
-    renderStudentSelect();
-    document.getElementById('studentSelect').style.display = 'flex';
-  }
-})();
-
 // ============ WINDOW EXPORTS ============
 window.toggleDeckGroup = toggleDeckGroup;
 window.selectDeck = selectDeck;
@@ -6930,6 +6907,32 @@ window.closeDeckBuilder = closeDeckBuilder;
 window.addWordToDeck = addWordToDeck;
 window.removeWordFromDeck = removeWordFromDeck;
 window.confirmDeleteCustomDeck = confirmDeleteCustomDeck;
+
+
+// ============ INIT ============
+(function initApp() {
+  var lastStudent = localStorage.getItem('arnthai_lastStudent');
+  var profiles = getProfiles();
+  if (lastStudent && profiles.indexOf(lastStudent) !== -1) {
+    selectStudent(lastStudent);
+  } else if (profiles.length === 0) {
+    var name = prompt('Welcome! Enter your name to get started:');
+    if (name && name.trim()) {
+      var trimmed = name.trim();
+      var s = loadStudent(trimmed);
+      saveStudent(s);
+      selectStudent(trimmed);
+    } else {
+      renderStudentSelect();
+      document.getElementById('studentSelect').style.display = 'flex';
+    }
+  } else {
+    renderStudentSelect();
+    document.getElementById('studentSelect').style.display = 'flex';
+  }
+})();
+
+
 </script>
 </body>
 </html>
