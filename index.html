@@ -7081,13 +7081,13 @@ function renderStudentSelect() {
     var s = loadStudent(name);
     var btn = document.createElement('div');
     btn.className = 'student-btn';
-    btn.innerHTML = '<button class="profile-delete-btn" onclick="event.stopPropagation();deleteProfile(\'' + name + '\')" title="Delete profile">🗑️</button><div class="avatar">' + name[0].toUpperCase() + '</div><div class="name">' + name + '</div><div class="streak">🔥 ' + (s.streak || 0) + ' days · ' + (s.xp || 0) + ' XP</div>';
+    btn.innerHTML = '<button class="profile-delete-btn" onclick="event.stopPropagation();deleteProfile(\'' + name + '\')" title="Delete profile">🗑️<\/button><div class="avatar">' + name[0].toUpperCase() + '<\/div><div class="name">' + name + '<\/div><div class="streak">🔥 ' + (s.streak || 0) + ' days · ' + (s.xp || 0) + ' XP<\/div>';
     btn.onclick = function() { selectStudent(name); };
     container.appendChild(btn);
   });
   var newBtn = document.createElement('div');
   newBtn.className = 'new-profile-btn';
-  newBtn.innerHTML = '<div class="plus">+</div><div class="label">New Profile</div>';
+  newBtn.innerHTML = '<div class="plus">+<\/div><div class="label">New Profile<\/div>';
   newBtn.onclick = function() { createNewProfile(); };
   container.appendChild(newBtn);
 }
@@ -7233,7 +7233,7 @@ function renderLevelBars() {
     var offset = circ * (1 - pct / 100);
     var tile = document.createElement('div');
     tile.className = 'level-ring-tile';
-    tile.innerHTML = '<div class="level-ring"><svg width="64" height="64"><circle class="ring-bg" cx="32" cy="32" r="26"/><circle class="ring-fill" cx="32" cy="32" r="26" stroke="' + color + '" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '"/></svg><div class="ring-pct">' + pct + '%</div></div><div class="level-ring-label">' + LEVELS[lvl].name + '</div>';
+    tile.innerHTML = '<div class="level-ring"><svg width="64" height="64"><circle class="ring-bg" cx="32" cy="32" r="26"/><circle class="ring-fill" cx="32" cy="32" r="26" stroke="' + color + '" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '"/><\/svg><div class="ring-pct">' + pct + '%<\/div><\/div><div class="level-ring-label">' + LEVELS[lvl].name + '<\/div>';
     container.appendChild(tile);
   }
 }
@@ -7297,10 +7297,10 @@ function updateCounterButtons(key) {
 function roundCounterHtml(key) {
   var val = getRoundCount(key);
   return '<div class="round-counter" onclick="event.stopPropagation()">' +
-    '<button class="round-counter-btn" id="roundDec-' + key + '" onclick="decrementRound(\'' + key + '\')" ' + (val <= 0 ? 'disabled' : '') + '>◀️</button>' +
-    '<div><span class="round-counter-value" id="roundCount-' + key + '">' + val + '</span><span class="round-counter-label"> rounds</span></div>' +
-    '<button class="round-counter-btn" onclick="incrementRound(\'' + key + '\')">▶️</button>' +
-    '</div>';
+    '<button class="round-counter-btn" id="roundDec-' + key + '" onclick="decrementRound(\'' + key + '\')" ' + (val <= 0 ? 'disabled' : '') + '>◀️<\/button>' +
+    '<div><span class="round-counter-value" id="roundCount-' + key + '">' + val + '<\/span><span class="round-counter-label"> rounds<\/span><\/div>' +
+    '<button class="round-counter-btn" onclick="incrementRound(\'' + key + '\')">▶️<\/button>' +
+    '<\/div>';
 }
 
 // ============ BOOKMARK BADGE ============
@@ -7308,7 +7308,7 @@ function bookmarkBadgeHtml(wordList) {
   var bmSet = new Set(currentStudent.bookmarks || []);
   var count = wordList.filter(function(w) { return bmSet.has(w); }).length;
   if (count === 0) return '';
-  return '<span class="bm-badge">🔖 ' + count + '</span>';
+  return '<span class="bm-badge">🔖 ' + count + '<\/span>';
 }
 
 // ============ DECK SECTIONS ============
@@ -7321,7 +7321,7 @@ function renderDeckSections() {
   var l1Words = getDeckWordIndices(l1Deck);
   var l1Learned = countLearnedInWordList(l1Words);
   premadeHtml += '<div class="deck-group">';
-  premadeHtml += '<div class="deck-group-header" onclick="toggleDeckGroup(this)"><div class="deck-group-title">🟢 Beginner · ' + l1Count + ' words</div><div class="deck-group-arrow">▼</div></div>';
+  premadeHtml += '<div class="deck-group-header" onclick="toggleDeckGroup(this)"><div class="deck-group-title">🟢 Beginner · ' + l1Count + ' words<\/div><div class="deck-group-arrow">▼<\/div><\/div>';
   premadeHtml += '<div class="deck-group-content">';
   for (var part = 1; part <= 8; part++) {
     var partDeck = {type:'premade', subtype:'part', level:1, part:part};
@@ -7332,8 +7332,8 @@ function renderDeckSections() {
   }
   premadeHtml += '</div></div>';
 
-  // Levels 2-5 (collapsed by default)
-  var partCounts = {2:10, 3:10, 4:10, 5:12};
+  // Levels 2-6 (collapsed by default)
+  var partCounts = {2:10, 3:10, 4:10, 5:12, 6:14};
   for (var lvl = 2; lvl <= 6; lvl++) {
     var lvlCount = LEVEL_COUNTS[String(lvl)];
     var lvlDeck = {type:'premade', subtype:'level', level:lvl};
@@ -7348,9 +7348,9 @@ function renderDeckSections() {
       var pWords = getDeckWordIndices(pDeck);
       var pLearned = countLearnedInWordList(pWords);
       var pKey = 'l' + lvl + '_p' + part;
-      premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(pDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖</div><div class="deck-info"><div class="deck-name">' + LEVELS[lvl].name + ' Part ' + part + bookmarkBadgeHtml(pWords) + '</div><div class="deck-meta">' + pLearned + '/' + pWords.length + ' learned</div>' + roundCounterHtml(pKey) + '</div><div class="deck-arrow">›</div></div>';
+      premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(pDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">' + LEVELS[lvl].name + ' Part ' + part + bookmarkBadgeHtml(pWords) + '<\/div><div class="deck-meta">' + pLearned + '/' + pWords.length + ' learned<\/div>' + roundCounterHtml(pKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
     }
-    premadeHtml += '</div></div>';
+    premadeHtml += '<\/div><\/div>';
   }
 
   // Mixed All Levels
@@ -7363,7 +7363,7 @@ function renderDeckSections() {
   var bmCount = (currentStudent.bookmarks || []).length;
   var bmDeck = {type:'bookmark'};
   var bmWords = getDeckWordIndices(bmDeck);
-  var bmHtml = '<div class="deck-card bookmark" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(bmDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🔖</div><div class="deck-info"><div class="deck-name">Bookmarked Words' + bookmarkBadgeHtml(bmWords) + '</div><div class="deck-meta">' + bmCount + ' words · Your saved words</div>' + roundCounterHtml('bookmarks') + '</div><div class="deck-arrow">›</div></div>';
+  var bmHtml = '<div class="deck-card bookmark" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(bmDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🔖<\/div><div class="deck-info"><div class="deck-name">Bookmarked Words' + bookmarkBadgeHtml(bmWords) + '<\/div><div class="deck-meta">' + bmCount + ' words · Your saved words<\/div>' + roundCounterHtml('bookmarks') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
   document.getElementById('bookmarkDeck').innerHTML = bmHtml;
 
   // Custom decks
