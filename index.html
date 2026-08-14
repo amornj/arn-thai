@@ -5977,7 +5977,7 @@ function renderDeckSections() {
     var partWords = getDeckWordIndices(partDeck);
     var partLearned = countLearnedInWordList(partWords);
     var partKey = 'l1_p' + part;
-    premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(partDeck) + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">Beginner Part ' + part + bookmarkBadgeHtml(partWords) + '<\/div><div class="deck-meta">' + partLearned + '/' + partWords.length + ' learned<\/div>' + roundCounterHtml(partKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+    premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(partDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">Beginner Part ' + part + bookmarkBadgeHtml(partWords) + '<\/div><div class="deck-meta">' + partLearned + '/' + partWords.length + ' learned<\/div>' + roundCounterHtml(partKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
   }
   premadeHtml += '<\/div><\/div>';
 
@@ -5997,7 +5997,7 @@ function renderDeckSections() {
       var pWords = getDeckWordIndices(pDeck);
       var pLearned = countLearnedInWordList(pWords);
       var pKey = 'l' + lvl + '_p' + part;
-      premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(pDeck) + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">' + LEVELS[lvl].name + ' Part ' + part + bookmarkBadgeHtml(pWords) + '<\/div><div class="deck-meta">' + pLearned + '/' + pWords.length + ' learned<\/div>' + roundCounterHtml(pKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+      premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(pDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">' + LEVELS[lvl].name + ' Part ' + part + bookmarkBadgeHtml(pWords) + '<\/div><div class="deck-meta">' + pLearned + '/' + pWords.length + ' learned<\/div>' + roundCounterHtml(pKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
     }
     premadeHtml += '<\/div><\/div>';
   }
@@ -6005,14 +6005,14 @@ function renderDeckSections() {
   // Mixed All Levels
   var allDeck = {type:'premade', subtype:'all'};
   var allDeckWords = getDeckWordIndices(allDeck);
-  premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(allDeck) + ')"><div class="deck-icon">🎲<\/div><div class="deck-info"><div class="deck-name">Mixed All Levels' + bookmarkBadgeHtml(allDeckWords) + '<\/div><div class="deck-meta">' + TOTAL_WORDS + ' words · Random practice<\/div>' + roundCounterHtml('mixed_all') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+  premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(allDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🎲<\/div><div class="deck-info"><div class="deck-name">Mixed All Levels' + bookmarkBadgeHtml(allDeckWords) + '<\/div><div class="deck-meta">' + TOTAL_WORDS + ' words · Random practice<\/div>' + roundCounterHtml('mixed_all') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
   document.getElementById('premadeDecks').innerHTML = premadeHtml;
 
   // Bookmark deck
   var bmCount = (currentStudent.bookmarks || []).length;
   var bmDeck = {type:'bookmark'};
   var bmWords = getDeckWordIndices(bmDeck);
-  var bmHtml = '<div class="deck-card bookmark" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(bmDeck) + ')"><div class="deck-icon">🔖<\/div><div class="deck-info"><div class="deck-name">Bookmarked Words' + bookmarkBadgeHtml(bmWords) + '<\/div><div class="deck-meta">' + bmCount + ' words · Your saved words<\/div>' + roundCounterHtml('bookmarks') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+  var bmHtml = '<div class="deck-card bookmark" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(bmDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🔖<\/div><div class="deck-info"><div class="deck-name">Bookmarked Words' + bookmarkBadgeHtml(bmWords) + '<\/div><div class="deck-meta">' + bmCount + ' words · Your saved words<\/div>' + roundCounterHtml('bookmarks') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
   document.getElementById('bookmarkDeck').innerHTML = bmHtml;
 
   // Custom decks
@@ -6022,7 +6022,7 @@ function renderDeckSections() {
     var d = customDecks[i];
     var cd = {type:'custom', id:d.id};
     var cdWords = getDeckWordIndices(cd);
-    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd) + ')"><div class="deck-icon">📝<\/div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '<\/div><div class="deck-meta">' + d.wordIndices.length + ' words<\/div>' + roundCounterHtml('custom_' + d.id) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝<\/div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '<\/div><div class="deck-meta">' + d.wordIndices.length + ' words<\/div>' + roundCounterHtml('custom_' + d.id) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
   }
   customHtml += '<div class="deck-card create-new" role="button" style="cursor:pointer" onclick="openDeckNameModal()"><div class="deck-icon">➕<\/div><div class="deck-info"><div class="deck-name">Create New Deck<\/div><div class="deck-meta">Build your own word list<\/div><\/div><\/div>';
   document.getElementById('customDecks').innerHTML = customHtml;
