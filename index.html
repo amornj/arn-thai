@@ -7081,13 +7081,13 @@ function renderStudentSelect() {
     var s = loadStudent(name);
     var btn = document.createElement('div');
     btn.className = 'student-btn';
-    btn.innerHTML = '<button class="profile-delete-btn" onclick="event.stopPropagation();deleteProfile(\'' + name + '\')" title="Delete profile">🗑️<\/button><div class="avatar">' + name[0].toUpperCase() + '<\/div><div class="name">' + name + '<\/div><div class="streak">🔥 ' + (s.streak || 0) + ' days · ' + (s.xp || 0) + ' XP<\/div>';
+    btn.innerHTML = '<button class="profile-delete-btn" onclick="event.stopPropagation();deleteProfile(\'' + name + '\')" title="Delete profile">🗑️</button><div class="avatar">' + name[0].toUpperCase() + '</div><div class="name">' + name + '</div><div class="streak">🔥 ' + (s.streak || 0) + ' days · ' + (s.xp || 0) + ' XP</div>';
     btn.onclick = function() { selectStudent(name); };
     container.appendChild(btn);
   });
   var newBtn = document.createElement('div');
   newBtn.className = 'new-profile-btn';
-  newBtn.innerHTML = '<div class="plus">+<\/div><div class="label">New Profile<\/div>';
+  newBtn.innerHTML = '<div class="plus">+</div><div class="label">New Profile</div>';
   newBtn.onclick = function() { createNewProfile(); };
   container.appendChild(newBtn);
 }
@@ -7233,7 +7233,7 @@ function renderLevelBars() {
     var offset = circ * (1 - pct / 100);
     var tile = document.createElement('div');
     tile.className = 'level-ring-tile';
-    tile.innerHTML = '<div class="level-ring"><svg width="64" height="64"><circle class="ring-bg" cx="32" cy="32" r="26"/><circle class="ring-fill" cx="32" cy="32" r="26" stroke="' + color + '" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '"/><\/svg><div class="ring-pct">' + pct + '%<\/div><\/div><div class="level-ring-label">' + LEVELS[lvl].name + '<\/div>';
+    tile.innerHTML = '<div class="level-ring"><svg width="64" height="64"><circle class="ring-bg" cx="32" cy="32" r="26"/><circle class="ring-fill" cx="32" cy="32" r="26" stroke="' + color + '" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '"/></svg><div class="ring-pct">' + pct + '%</div></div><div class="level-ring-label">' + LEVELS[lvl].name + '</div>';
     container.appendChild(tile);
   }
 }
@@ -7297,10 +7297,10 @@ function updateCounterButtons(key) {
 function roundCounterHtml(key) {
   var val = getRoundCount(key);
   return '<div class="round-counter" onclick="event.stopPropagation()">' +
-    '<button class="round-counter-btn" id="roundDec-' + key + '" onclick="decrementRound(\'' + key + '\')" ' + (val <= 0 ? 'disabled' : '') + '>◀️<\/button>' +
-    '<div><span class="round-counter-value" id="roundCount-' + key + '">' + val + '<\/span><span class="round-counter-label"> rounds<\/span><\/div>' +
-    '<button class="round-counter-btn" onclick="incrementRound(\'' + key + '\')">▶️<\/button>' +
-    '<\/div>';
+    '<button class="round-counter-btn" id="roundDec-' + key + '" onclick="decrementRound(\'' + key + '\')" ' + (val <= 0 ? 'disabled' : '') + '>◀️</button>' +
+    '<div><span class="round-counter-value" id="roundCount-' + key + '">' + val + '</span><span class="round-counter-label"> rounds</span></div>' +
+    '<button class="round-counter-btn" onclick="incrementRound(\'' + key + '\')">▶️</button>' +
+    '</div>';
 }
 
 // ============ BOOKMARK BADGE ============
@@ -7308,7 +7308,7 @@ function bookmarkBadgeHtml(wordList) {
   var bmSet = new Set(currentStudent.bookmarks || []);
   var count = wordList.filter(function(w) { return bmSet.has(w); }).length;
   if (count === 0) return '';
-  return '<span class="bm-badge">🔖 ' + count + '<\/span>';
+  return '<span class="bm-badge">🔖 ' + count + '</span>';
 }
 
 // ============ DECK SECTIONS ============
@@ -7321,16 +7321,16 @@ function renderDeckSections() {
   var l1Words = getDeckWordIndices(l1Deck);
   var l1Learned = countLearnedInWordList(l1Words);
   premadeHtml += '<div class="deck-group">';
-  premadeHtml += '<div class="deck-group-header" onclick="toggleDeckGroup(this)"><div class="deck-group-title">🟢 Beginner · ' + l1Count + ' words<\/div><div class="deck-group-arrow">▼<\/div><\/div>';
+  premadeHtml += '<div class="deck-group-header" onclick="toggleDeckGroup(this)"><div class="deck-group-title">🟢 Beginner · ' + l1Count + ' words</div><div class="deck-group-arrow">▼</div></div>';
   premadeHtml += '<div class="deck-group-content">';
   for (var part = 1; part <= 8; part++) {
     var partDeck = {type:'premade', subtype:'part', level:1, part:part};
     var partWords = getDeckWordIndices(partDeck);
     var partLearned = countLearnedInWordList(partWords);
     var partKey = 'l1_p' + part;
-    premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(partDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">Beginner Part ' + part + bookmarkBadgeHtml(partWords) + '<\/div><div class="deck-meta">' + partLearned + '/' + partWords.length + ' learned<\/div>' + roundCounterHtml(partKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+    premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(partDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖</div><div class="deck-info"><div class="deck-name">Beginner Part ' + part + bookmarkBadgeHtml(partWords) + '</div><div class="deck-meta">' + partLearned + '/' + partWords.length + ' learned</div>' + roundCounterHtml(partKey) + '</div><div class="deck-arrow">›</div></div>';
   }
-  premadeHtml += '<\/div><\/div>';
+  premadeHtml += '</div></div>';
 
   // Levels 2-5 (collapsed by default)
   var partCounts = {2:10, 3:10, 4:10, 5:12};
@@ -7341,29 +7341,29 @@ function renderDeckSections() {
     var lvlLearned = countLearnedInWordList(lvlWords);
     var pc = partCounts[lvl];
     premadeHtml += '<div class="deck-group">';
-    premadeHtml += '<div class="deck-group-header" onclick="toggleDeckGroup(this)"><div class="deck-group-title">📘 ' + LEVELS[lvl].name + ' · ' + lvlCount + ' words<\/div><div class="deck-group-arrow">▶<\/div><\/div>';
+    premadeHtml += '<div class="deck-group-header" onclick="toggleDeckGroup(this)"><div class="deck-group-title">📘 ' + LEVELS[lvl].name + ' · ' + lvlCount + ' words</div><div class="deck-group-arrow">▶</div></div>';
     premadeHtml += '<div class="deck-group-content collapsed">';
     for (var part = 1; part <= pc; part++) {
       var pDeck = {type:'premade', subtype:'part', level:lvl, part:part};
       var pWords = getDeckWordIndices(pDeck);
       var pLearned = countLearnedInWordList(pWords);
       var pKey = 'l' + lvl + '_p' + part;
-      premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(pDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖<\/div><div class="deck-info"><div class="deck-name">' + LEVELS[lvl].name + ' Part ' + part + bookmarkBadgeHtml(pWords) + '<\/div><div class="deck-meta">' + pLearned + '/' + pWords.length + ' learned<\/div>' + roundCounterHtml(pKey) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+      premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(pDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📖</div><div class="deck-info"><div class="deck-name">' + LEVELS[lvl].name + ' Part ' + part + bookmarkBadgeHtml(pWords) + '</div><div class="deck-meta">' + pLearned + '/' + pWords.length + ' learned</div>' + roundCounterHtml(pKey) + '</div><div class="deck-arrow">›</div></div>';
     }
-    premadeHtml += '<\/div><\/div>';
+    premadeHtml += '</div></div>';
   }
 
   // Mixed All Levels
   var allDeck = {type:'premade', subtype:'all'};
   var allDeckWords = getDeckWordIndices(allDeck);
-  premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(allDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🎲<\/div><div class="deck-info"><div class="deck-name">Mixed All Levels' + bookmarkBadgeHtml(allDeckWords) + '<\/div><div class="deck-meta">' + TOTAL_WORDS + ' words · Random practice<\/div>' + roundCounterHtml('mixed_all') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+  premadeHtml += '<div class="deck-card premade" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(allDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🎲</div><div class="deck-info"><div class="deck-name">Mixed All Levels' + bookmarkBadgeHtml(allDeckWords) + '</div><div class="deck-meta">' + TOTAL_WORDS + ' words · Random practice</div>' + roundCounterHtml('mixed_all') + '</div><div class="deck-arrow">›</div></div>';
   document.getElementById('premadeDecks').innerHTML = premadeHtml;
 
   // Bookmark deck
   var bmCount = (currentStudent.bookmarks || []).length;
   var bmDeck = {type:'bookmark'};
   var bmWords = getDeckWordIndices(bmDeck);
-  var bmHtml = '<div class="deck-card bookmark" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(bmDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🔖<\/div><div class="deck-info"><div class="deck-name">Bookmarked Words' + bookmarkBadgeHtml(bmWords) + '<\/div><div class="deck-meta">' + bmCount + ' words · Your saved words<\/div>' + roundCounterHtml('bookmarks') + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+  var bmHtml = '<div class="deck-card bookmark" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(bmDeck).replace(/"/g, "&quot;") + ')"><div class="deck-icon">🔖</div><div class="deck-info"><div class="deck-name">Bookmarked Words' + bookmarkBadgeHtml(bmWords) + '</div><div class="deck-meta">' + bmCount + ' words · Your saved words</div>' + roundCounterHtml('bookmarks') + '</div><div class="deck-arrow">›</div></div>';
   document.getElementById('bookmarkDeck').innerHTML = bmHtml;
 
   // Custom decks
@@ -7373,9 +7373,9 @@ function renderDeckSections() {
     var d = customDecks[i];
     var cd = {type:'custom', id:d.id};
     var cdWords = getDeckWordIndices(cd);
-    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝<\/div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '<\/div><div class="deck-meta">' + d.wordIndices.length + ' words<\/div>' + roundCounterHtml('custom_' + d.id) + '<\/div><div class="deck-arrow">›<\/div><\/div>';
+    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝</div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '</div><div class="deck-meta">' + d.wordIndices.length + ' words</div>' + roundCounterHtml('custom_' + d.id) + '</div><div class="deck-arrow">›</div></div>';
   }
-  customHtml += '<div class="deck-card create-new" role="button" style="cursor:pointer" onclick="openDeckNameModal()"><div class="deck-icon">➕<\/div><div class="deck-info"><div class="deck-name">Create New Deck<\/div><div class="deck-meta">Build your own word list<\/div><\/div><\/div>';
+  customHtml += '<div class="deck-card create-new" role="button" style="cursor:pointer" onclick="openDeckNameModal()"><div class="deck-icon">➕</div><div class="deck-info"><div class="deck-name">Create New Deck</div><div class="deck-meta">Build your own word list</div></div></div>';
   document.getElementById('customDecks').innerHTML = customHtml;
 }
 
@@ -7409,15 +7409,15 @@ function showModeSelect() {
   var quizSub = wordCount < 4 ? 'Need 4+ words' : 'Test knowledge';
 
   content.innerHTML = '<div class="mode-select">' +
-    '<div class="mode-select-title">' + deckName + '<\/div>' +
-    '<div class="mode-select-sub">' + wordCount + ' words in this deck · Choose a study mode<\/div>' +
-    '<button class="mode-btn flash" onclick="startFlashMode()"><div class="mode-icon">🔄<\/div><div class="mode-info"><div class="mode-name">Flash<\/div><div class="mode-desc">' + flashSub + ' · Flip cards, no tracking<\/div><\/div><\/button>' +
-    '<button class="mode-btn srs" onclick="startSRSMode()"><div class="mode-icon">📖<\/div><div class="mode-info"><div class="mode-name">SRS<\/div><div class="mode-desc">' + srsSub + ' · Spaced repetition<\/div><\/div><\/button>' +
-    '<button class="mode-btn quiz" onclick="startQuizMode()"' + (wordCount < 4 ? ' disabled style="opacity:0.5"' : '') + '><div class="mode-icon">📝<\/div><div class="mode-info"><div class="mode-name">Quiz<\/div><div class="mode-desc">' + quizSub + ' · MCQ test<\/div><\/div><\/button>' +
-    (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="openDeckBuilder(\'' + selectedDeck.id + '\')">📝 Edit Deck Words<\/button>' : '') +
-    (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="confirmDeleteCustomDeck(\'' + selectedDeck.id + '\')">🗑️ Delete This Deck<\/button>' : '') +
-    '<button class="mode-back-btn" onclick="backToDashboard()">← Back to Dashboard<\/button>' +
-    '<\/div>';
+    '<div class="mode-select-title">' + deckName + '</div>' +
+    '<div class="mode-select-sub">' + wordCount + ' words in this deck · Choose a study mode</div>' +
+    '<button class="mode-btn flash" onclick="startFlashMode()"><div class="mode-icon">🔄</div><div class="mode-info"><div class="mode-name">Flash</div><div class="mode-desc">' + flashSub + ' · Flip cards, no tracking</div></div></button>' +
+    '<button class="mode-btn srs" onclick="startSRSMode()"><div class="mode-icon">📖</div><div class="mode-info"><div class="mode-name">SRS</div><div class="mode-desc">' + srsSub + ' · Spaced repetition</div></div></button>' +
+    '<button class="mode-btn quiz" onclick="startQuizMode()"' + (wordCount < 4 ? ' disabled style="opacity:0.5"' : '') + '><div class="mode-icon">📝</div><div class="mode-info"><div class="mode-name">Quiz</div><div class="mode-desc">' + quizSub + ' · MCQ test</div></div></button>' +
+    (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="openDeckBuilder(\'' + selectedDeck.id + '\')">📝 Edit Deck Words</button>' : '') +
+    (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="confirmDeleteCustomDeck(\'' + selectedDeck.id + '\')">🗑️ Delete This Deck</button>' : '') +
+    '<button class="mode-back-btn" onclick="backToDashboard()">← Back to Dashboard</button>' +
+    '</div>';
 }
 
 function backToDashboard() {
@@ -7511,11 +7511,11 @@ function renderQuizCard() {
   var content = document.getElementById('studyContent');
   var optsHtml = '';
   q.options.forEach(function(opt) {
-    optsHtml += '<div class="quiz-option" data-correct="' + (opt === q.english) + '" onclick="answerQuiz(this)">' + opt + '<\/div>';
+    optsHtml += '<div class="quiz-option" data-correct="' + (opt === q.english) + '" onclick="answerQuiz(this)">' + opt + '</div>';
   });
   var bmIcon = isBookmarked(q.word) ? '🔖' : '🏷️';
   var bmClass = isBookmarked(q.word) ? 'bookmark-btn active' : 'bookmark-btn';
-  content.innerHTML = '<div class="quiz-card"><div class="quiz-prompt"><div class="label">What is the English meaning?<\/div><div class="text">' + q.word + '<\/div><div class="sub">' + q.pos + '<\/div><\/div><div class="quiz-options">' + optsHtml + '<\/div><div class="quiz-feedback" id="quizFeedback"><\/div><\/div><div class="bookmark-row" style="justify-content:center;margin-top:8px"><button class="' + bmClass + '" data-bm-word="' + q.word + '" onclick="toggleBookmark(\'' + q.word.replace(/'/g, "\'") + '\')">' + bmIcon + '<\/button><\/div>';
+  content.innerHTML = '<div class="quiz-card"><div class="quiz-prompt"><div class="label">What is the English meaning?</div><div class="text">' + q.word + '</div><div class="sub">' + q.pos + '</div></div><div class="quiz-options">' + optsHtml + '</div><div class="quiz-feedback" id="quizFeedback"></div></div><div class="bookmark-row" style="justify-content:center;margin-top:8px"><button class="' + bmClass + '" data-bm-word="' + q.word + '" onclick="toggleBookmark(\'' + q.word.replace(/'/g, "\'") + '\')">' + bmIcon + '</button></div>';
 }
 
 function answerQuiz(el) {
@@ -7599,20 +7599,20 @@ function renderStudyCard() {
   var bmIcon = isBookmarked(word) ? '🔖' : '🏷️';
   var bmClass = isBookmarked(word) ? 'bookmark-btn active' : 'bookmark-btn';
 
-  var frontHtml = '<div class="word">' + wd.word + '<\/div><div class="pos">' + (wd.pos || '') + '<\/div><div class="tap-hint">Tap or press Space to reveal<\/div>';
-  var backHtml = '<div class="word">' + wd.word + '<\/div><div class="pos">' + (wd.pos || '') + '<\/div><div class="def">' + (wd.english || '') + '<\/div>';
+  var frontHtml = '<div class="word">' + wd.word + '</div><div class="pos">' + (wd.pos || '') + '</div><div class="tap-hint">Tap or press Space to reveal</div>';
+  var backHtml = '<div class="word">' + wd.word + '</div><div class="pos">' + (wd.pos || '') + '</div><div class="def">' + (wd.english || '') + '</div>';
   if (wd.thai_def) {
-    backHtml += '<div class="thai-def">' + wd.thai_def + '<\/div>';
+    backHtml += '<div class="thai-def">' + wd.thai_def + '</div>';
   }
   if (wd.sample) {
-    backHtml += '<div class="sentence-label">Example<\/div><div class="sentence">' + wd.sample + '<\/div>';
+    backHtml += '<div class="sentence-label">Example</div><div class="sentence">' + wd.sample + '</div>';
   }
 
   if (studyType === 'free') {
-    content.innerHTML = '<div class="flashcard-container"><div class="bookmark-row"><button class="' + bmClass + '" data-bm-word="' + word + '" onclick="event.stopPropagation();toggleBookmark(\'' + word.replace(/'/g, "\'") + '\')">' + bmIcon + '<\/button><\/div><div class="flashcard" id="flashcard" onclick="flipCard()"><div class="flashcard-face">' + frontHtml + '<\/div><div class="flashcard-back flashcard-face">' + backHtml + '<\/div><\/div><\/div><div class="nav-buttons"><button class="nav-btn nav-prev" onclick="prevCard()">◀️<span class="nav-key">←<\/span><\/button><button class="nav-btn nav-flip" onclick="flipCard()">🔄 Flip<span class="nav-key">Space<\/span><\/button><button class="nav-btn nav-next" onclick="nextCard()">Next ▶️<span class="nav-key">→<\/span><\/button><\/div><div class="nav-hints"><kbd>Space<\/kbd> flip · <kbd>←<\/kbd> prev · <kbd>→<\/kbd> next · <kbd>B<\/kbd> bookmark<\/div>';
+    content.innerHTML = '<div class="flashcard-container"><div class="bookmark-row"><button class="' + bmClass + '" data-bm-word="' + word + '" onclick="event.stopPropagation();toggleBookmark(\'' + word.replace(/'/g, "\'") + '\')">' + bmIcon + '</button></div><div class="flashcard" id="flashcard" onclick="flipCard()"><div class="flashcard-face">' + frontHtml + '</div><div class="flashcard-back flashcard-face">' + backHtml + '</div></div></div><div class="nav-buttons"><button class="nav-btn nav-prev" onclick="prevCard()">◀️<span class="nav-key">←</span></button><button class="nav-btn nav-flip" onclick="flipCard()">🔄 Flip<span class="nav-key">Space</span></button><button class="nav-btn nav-next" onclick="nextCard()">Next ▶️<span class="nav-key">→</span></button></div><div class="nav-hints"><kbd>Space</kbd> flip · <kbd>←</kbd> prev · <kbd>→</kbd> next · <kbd>B</kbd> bookmark</div>';
   } else if (studyType === 'srs') {
     var isNew = !currentStudent.progress[word];
-    content.innerHTML = '<div class="flashcard-container"><div class="bookmark-row"><button class="' + bmClass + '" data-bm-word="' + word + '" onclick="event.stopPropagation();toggleBookmark(\'' + word.replace(/'/g, "\'") + '\')">' + bmIcon + '<\/button><\/div><div class="flashcard" id="flashcard" onclick="flipCard()"><div class="flashcard-face">' + frontHtml + '<\/div><div class="flashcard-back flashcard-face">' + backHtml + '<\/div><\/div><\/div><div class="rating-buttons" id="ratingButtons" style="display:none"><button class="rate-btn rate-again" onclick="rateCard(1)">Again<span class="time-hint">1m<\/span><\/button><button class="rate-btn rate-hard" onclick="rateCard(2)">Hard<span class="time-hint">10m<\/span><\/button><button class="rate-btn rate-good" onclick="rateCard(3)">Good<span class="time-hint">1d<\/span><\/button><button class="rate-btn rate-easy" onclick="rateCard(4)">Easy<span class="time-hint">4d+<\/span><\/button><\/div><div class="nav-hints" id="srsHints" style="display:none">' + (isNew ? '✨ New word · ' : '') + '<kbd>Space<\/kbd> flip · <kbd>A<\/kbd> again · <kbd>S<\/kbd> hard · <kbd>D<\/kbd> good · <kbd>F<\/kbd> easy · <kbd>B<\/kbd> bookmark<\/div>';
+    content.innerHTML = '<div class="flashcard-container"><div class="bookmark-row"><button class="' + bmClass + '" data-bm-word="' + word + '" onclick="event.stopPropagation();toggleBookmark(\'' + word.replace(/'/g, "\'") + '\')">' + bmIcon + '</button></div><div class="flashcard" id="flashcard" onclick="flipCard()"><div class="flashcard-face">' + frontHtml + '</div><div class="flashcard-back flashcard-face">' + backHtml + '</div></div></div><div class="rating-buttons" id="ratingButtons" style="display:none"><button class="rate-btn rate-again" onclick="rateCard(1)">Again<span class="time-hint">1m</span></button><button class="rate-btn rate-hard" onclick="rateCard(2)">Hard<span class="time-hint">10m</span></button><button class="rate-btn rate-good" onclick="rateCard(3)">Good<span class="time-hint">1d</span></button><button class="rate-btn rate-easy" onclick="rateCard(4)">Easy<span class="time-hint">4d+</span></button></div><div class="nav-hints" id="srsHints" style="display:none">' + (isNew ? '✨ New word · ' : '') + '<kbd>Space</kbd> flip · <kbd>A</kbd> again · <kbd>S</kbd> hard · <kbd>D</kbd> good · <kbd>F</kbd> easy · <kbd>B</kbd> bookmark</div>';
   }
 }
 
@@ -7707,20 +7707,20 @@ function renderCompletionScreen() {
   var statsHtml = '';
   if (studyType === 'quiz') {
     var pct = Math.round(quizCorrect / quizQuestions.length * 100);
-    statsHtml = '<div class="completion-stats"><div class="completion-stat"><div class="value">' + quizCorrect + '<\/div><div class="label">Correct<\/div><\/div><div class="completion-stat"><div class="value">' + quizQuestions.length + '<\/div><div class="label">Total<\/div><\/div><div class="completion-stat"><div class="value">' + pct + '%<\/div><div class="label">Accuracy<\/div><\/div><\/div>';
+    statsHtml = '<div class="completion-stats"><div class="completion-stat"><div class="value">' + quizCorrect + '</div><div class="label">Correct</div></div><div class="completion-stat"><div class="value">' + quizQuestions.length + '</div><div class="label">Total</div></div><div class="completion-stat"><div class="value">' + pct + '%</div><div class="label">Accuracy</div></div></div>';
   } else {
-    statsHtml = '<div class="completion-stats"><div class="completion-stat"><div class="value">' + studyQueue.length + '<\/div><div class="label">Cards Studied<\/div><\/div><\/div>';
+    statsHtml = '<div class="completion-stats"><div class="completion-stat"><div class="value">' + studyQueue.length + '</div><div class="label">Cards Studied</div></div></div>';
   }
   var wordListHtml = '';
   if (sessionWordList.length > 0) {
     var listItems = sessionWordList.map(function(item) {
-      return '<div class="session-word-item">' + item.word + '<\/div>';
+      return '<div class="session-word-item">' + item.word + '</div>';
     }).join('');
-    wordListHtml = '<div class="session-word-list-section"><div class="session-word-list-title">📋 Words This Session (' + sessionWordList.length + ')<\/div><div class="session-word-list">' + listItems + '<\/div><\/div>';
+    wordListHtml = '<div class="session-word-list-section"><div class="session-word-list-title">📋 Words This Session (' + sessionWordList.length + ')</div><div class="session-word-list">' + listItems + '</div></div>';
   }
   var emoji = studyType === 'quiz' ? (quizCorrect / quizQuestions.length >= 0.8 ? '🌟' : quizCorrect / quizQuestions.length >= 0.6 ? '👍' : '💪') : '🎉';
   var title = studyType === 'quiz' ? (quizCorrect / quizQuestions.length >= 0.8 ? 'Excellent!' : 'Quiz Done!') : 'Session Complete!';
-  content.innerHTML = '<div class="completion-screen"><div class="emoji">' + emoji + '<\/div><h2>' + title + '<\/h2><p>You completed this session!<\/p>' + statsHtml + wordListHtml + '<button class="completion-btn" onclick="exitStudy()">Back to Dashboard<\/button><\/div>';
+  content.innerHTML = '<div class="completion-screen"><div class="emoji">' + emoji + '</div><h2>' + title + '</h2><p>You completed this session!</p>' + statsHtml + wordListHtml + '<button class="completion-btn" onclick="exitStudy()">Back to Dashboard</button></div>';
 }
 
 function exitStudy() {
@@ -7773,14 +7773,14 @@ function renderBrowseBookmarks() {
   var container = document.getElementById('browseContent');
   var bmWords = currentStudent.bookmarks || [];
   if (bmWords.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);">No bookmarks yet.<br>Tap 🏷️ on any word to bookmark it.<\/div>';
+    container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);">No bookmarks yet.<br>Tap 🏷️ on any word to bookmark it.</div>';
     return;
   }
   container.innerHTML = bmWords.map(function(word) {
     var w = getWordData(word);
     if (!w) return '';
     var bmIcon = isBookmarked(word) ? '🔖' : '🏷️';
-    return '<div class="browse-item"><div class="browse-item-top"><span class="word">' + w.word + '<\/span><span class="pos">' + (w.pos || '') + '<\/span><button class="bookmark-btn-inline active" data-bm-word="' + word + '" onclick="toggleBookmark(\'' + word.replace(/'/g, "\'") + '\')">' + bmIcon + '<\/button><\/div><div class="def">' + (w.english || '') + '<\/div>' + (w.thai_def ? '<div class="thai-def">' + w.thai_def + '<\/div>' : '') + '<div class="sentence">' + (w.sample || '') + '<\/div><\/div>';
+    return '<div class="browse-item"><div class="browse-item-top"><span class="word">' + w.word + '</span><span class="pos">' + (w.pos || '') + '</span><button class="bookmark-btn-inline active" data-bm-word="' + word + '" onclick="toggleBookmark(\'' + word.replace(/'/g, "\'") + '\')">' + bmIcon + '</button></div><div class="def">' + (w.english || '') + '</div>' + (w.thai_def ? '<div class="thai-def">' + w.thai_def + '</div>' : '') + '<div class="sentence">' + (w.sample || '') + '</div></div>';
   }).join('');
 }
 function renderBrowseList(level) {
@@ -7788,7 +7788,7 @@ function renderBrowseList(level) {
   var words = WORDS.filter(function(w) { return w.level === level; });
   container.innerHTML = words.map(function(w) {
     var bmIcon = isBookmarked(w.word) ? '🔖' : '🏷️';
-    return '<div class="browse-item"><div class="browse-item-top"><span class="word">' + w.word + '<\/span><span class="pos">' + (w.pos || '') + '<\/span><button class="bookmark-btn-inline' + (isBookmarked(w.word) ? ' active' : '') + '" data-bm-word="' + w.word + '" onclick="toggleBookmark(\'' + w.word.replace(/'/g, "\'") + '\')">' + bmIcon + '<\/button><\/div><div class="def">' + (w.english || '') + '<\/div>' + (w.thai_def ? '<div class="thai-def">' + w.thai_def + '<\/div>' : '') + '<div class="sentence">' + (w.sample || '') + '<\/div><\/div>';
+    return '<div class="browse-item"><div class="browse-item-top"><span class="word">' + w.word + '</span><span class="pos">' + (w.pos || '') + '</span><button class="bookmark-btn-inline' + (isBookmarked(w.word) ? ' active' : '') + '" data-bm-word="' + w.word + '" onclick="toggleBookmark(\'' + w.word.replace(/'/g, "\'") + '\')">' + bmIcon + '</button></div><div class="def">' + (w.english || '') + '</div>' + (w.thai_def ? '<div class="thai-def">' + w.thai_def + '</div>' : '') + '<div class="sentence">' + (w.sample || '') + '</div></div>';
   }).join('');
 }
 
@@ -7884,16 +7884,16 @@ function renderAdaptiveCard() {
   for (var l = 1; l <= 5; l++) {
     var cls = 'level-dot' + (l === adaptiveLevel ? ' active' : '');
     var col = l <= adaptiveLevel ? LEVELS[l].color : '';
-    levelDots += '<div class="' + cls + '" style="' + (col ? 'background:' + col : '') + '"><\/div>';
+    levelDots += '<div class="' + cls + '" style="' + (col ? 'background:' + col : '') + '"></div>';
   }
   var optsHtml = '';
   options.forEach(function(opt) {
-    optsHtml += '<div class="quiz-option" data-correct="' + (opt === wd.english) + '" onclick="answerAdaptive(this)">' + opt + '<\/div>';
+    optsHtml += '<div class="quiz-option" data-correct="' + (opt === wd.english) + '" onclick="answerAdaptive(this)">' + opt + '</div>';
   });
   var bmIcon = isBookmarked(wd.word) ? '🔖' : '🏷️';
   var bmClass = isBookmarked(wd.word) ? 'bookmark-btn active' : 'bookmark-btn';
   var c = document.getElementById('studyContent');
-  c.innerHTML = '<div class="adaptive-info"><div class="adaptive-level-bar">' + levelDots + '<div class="level-label">' + (isChallenge ? 'Challenge: ' : '') + LEVELS[challengeLevel].name + '<\/div><\/div><div class="adaptive-stats"><div class="adaptive-stat">✅ <span class="val correct">' + adaptiveCorrect + '<\/span><\/div><div class="adaptive-stat">❌ <span class="val wrong">' + adaptiveWrong + '<\/span><\/div><div class="adaptive-stat">🔥 Streak: <span class="val">' + adaptiveStreak + '<\/span><\/div><\/div><\/div><div class="quiz-card"><div class="quiz-prompt"><div class="label">What is the English meaning?<\/div><div class="text">' + wd.word + '<\/div><div class="sub">' + (wd.pos || '') + '<\/div><\/div><div class="quiz-options">' + optsHtml + '<\/div><div class="quiz-feedback" id="quizFeedback"><\/div><\/div><div class="bookmark-row" style="justify-content:center;margin-top:4px"><button class="' + bmClass + '" data-bm-word="' + wd.word + '" onclick="toggleBookmark(\'' + wd.word.replace(/'/g, "\'") + '\')">' + bmIcon + '<\/button><\/div><div class="nav-hints"><kbd>A<\/kbd> <kbd>S<\/kbd> <kbd>D<\/kbd> <kbd>F<\/kbd> select options · <kbd>B<\/kbd> bookmark<\/div>';
+  c.innerHTML = '<div class="adaptive-info"><div class="adaptive-level-bar">' + levelDots + '<div class="level-label">' + (isChallenge ? 'Challenge: ' : '') + LEVELS[challengeLevel].name + '</div></div><div class="adaptive-stats"><div class="adaptive-stat">✅ <span class="val correct">' + adaptiveCorrect + '</span></div><div class="adaptive-stat">❌ <span class="val wrong">' + adaptiveWrong + '</span></div><div class="adaptive-stat">🔥 Streak: <span class="val">' + adaptiveStreak + '</span></div></div></div><div class="quiz-card"><div class="quiz-prompt"><div class="label">What is the English meaning?</div><div class="text">' + wd.word + '</div><div class="sub">' + (wd.pos || '') + '</div></div><div class="quiz-options">' + optsHtml + '</div><div class="quiz-feedback" id="quizFeedback"></div></div><div class="bookmark-row" style="justify-content:center;margin-top:4px"><button class="' + bmClass + '" data-bm-word="' + wd.word + '" onclick="toggleBookmark(\'' + wd.word.replace(/'/g, "\'") + '\')">' + bmIcon + '</button></div><div class="nav-hints"><kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd> select options · <kbd>B</kbd> bookmark</div>';
 }
 
 function answerAdaptive(el) {
@@ -7972,7 +7972,7 @@ function performSearch(query) {
 function renderSearchResults() {
   var container = document.getElementById('searchResults');
   if (searchResultsArr.length === 0) {
-    container.innerHTML = '<div class="search-empty">No words found<\/div>';
+    container.innerHTML = '<div class="search-empty">No words found</div>';
     return;
   }
   var html = '';
@@ -7981,9 +7981,9 @@ function renderSearchResults() {
     var levelName = LEVELS[w.level] ? LEVELS[w.level].name : 'Level ' + w.level;
     var cls = i === searchSelectedIdx ? 'search-result-item selected' : 'search-result-item';
     html += '<div class="' + cls + '" onclick="openWordFromSearch(' + i + ')" data-idx="' + i + '">' +
-      '<div class="search-result-word">' + w.word + ' <span class="search-result-meta">' + levelName + ' · ' + (w.pos || '') + '<\/span><\/div>' +
-      '<div class="search-result-def">' + (w.english || '') + '<\/div>' +
-      '<\/div>';
+      '<div class="search-result-word">' + w.word + ' <span class="search-result-meta">' + levelName + ' · ' + (w.pos || '') + '</span></div>' +
+      '<div class="search-result-def">' + (w.english || '') + '</div>' +
+      '</div>';
   }
   container.innerHTML = html;
 }
@@ -8065,12 +8065,12 @@ function renderCustomList() {
   var container = document.getElementById('customList');
   var custom = getCustomWords();
   if (custom.length === 0) {
-    container.innerHTML = '<div class="custom-empty">No custom words yet. Add words not in the standard list!<\/div>';
+    container.innerHTML = '<div class="custom-empty">No custom words yet. Add words not in the standard list!</div>';
     return;
   }
   var html = '';
   for (var i = 0; i < custom.length; i++) {
-    html += '<div class="custom-list-item"><span class="word">' + custom[i].word + '<\/span><span class="meaning">' + (custom[i].english || custom[i].def || '') + '<\/span><button class="del-btn" onclick="deleteCustomWord(' + i + ')">🗑️<\/button><\/div>';
+    html += '<div class="custom-list-item"><span class="word">' + custom[i].word + '</span><span class="meaning">' + (custom[i].english || custom[i].def || '') + '</span><button class="del-btn" onclick="deleteCustomWord(' + i + ')">🗑️</button></div>';
   }
   container.innerHTML = html;
 }
@@ -8147,7 +8147,7 @@ function renderDeckBuilderResults() {
   var deck = getCustomDeck(deckBuilderDeckId);
   if (!deck) return;
   if (deckBuilderResults.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);">Search for words to add to your deck<\/div>';
+    container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);">Search for words to add to your deck</div>';
     return;
   }
   var html = '';
@@ -8155,13 +8155,13 @@ function renderDeckBuilderResults() {
     var w = deckBuilderResults[i];
     var isInDeck = deck.wordIndices.indexOf(w.word) !== -1;
     var levelName = LEVELS[w.level] ? LEVELS[w.level].name : 'Level ' + w.level;
-    html += '<div class="deck-builder-item"><div class="word-info"><div class="word-text">' + w.word + '<\/div><div class="word-meta">' + levelName + ' · ' + (w.english || '') + '<\/div><\/div>';
+    html += '<div class="deck-builder-item"><div class="word-info"><div class="word-text">' + w.word + '</div><div class="word-meta">' + levelName + ' · ' + (w.english || '') + '</div></div>';
     if (isInDeck) {
-      html += '<button class="remove-from-deck-btn" onclick="removeWordFromDeck(\'' + w.word.replace(/'/g, "\'") + '\')">✕ Remove<\/button>';
+      html += '<button class="remove-from-deck-btn" onclick="removeWordFromDeck(\'' + w.word.replace(/'/g, "\'") + '\')">✕ Remove</button>';
     } else {
-      html += '<button class="add-to-deck-btn" onclick="addWordToDeck(\'' + w.word.replace(/'/g, "\'") + '\')">➕ Add<\/button>';
+      html += '<button class="add-to-deck-btn" onclick="addWordToDeck(\'' + w.word.replace(/'/g, "\'") + '\')">➕ Add</button>';
     }
-    html += '<\/div>';
+    html += '</div>';
   }
   container.innerHTML = html;
 }
