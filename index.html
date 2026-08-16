@@ -371,6 +371,12 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .deck-card .round-counter-btn:hover { background:#E8E8E8; }
 .deck-card .round-counter-value { color:var(--text); }
 .deck-card .round-counter-label { color:var(--text-light); }
+.custom-deck-actions { display:flex; gap:10px; margin-top:12px; width:100%; }
+.custom-deck-action { flex:1 1 0; min-width:0; min-height:40px; padding:9px 14px; border:1px solid #D8D8D8; border-radius:8px; background:#F5F5F5; color:var(--text); font-size:0.82rem; font-weight:700; line-height:1.2; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap; transition:var(--transition); }
+.custom-deck-action:hover { background:#EAEAEA; border-color:#C8C8C8; }
+.custom-deck-action:active { transform:scale(0.97); }
+.custom-deck-action.delete { background:#FFF3F3; border-color:#F2CACA; color:#B43A3A; }
+.custom-deck-action.delete:hover { background:#FFE7E7; border-color:#E7AAAA; }
 
 .bm-badge { display:inline-flex; align-items:center; gap:2px; background:rgba(212,160,23,0.2); color:#B8900F; font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:10px; margin-left:6px; }
 .deck-card .bm-badge { background:rgba(212,160,23,0.15); }
@@ -7392,7 +7398,7 @@ function renderDeckSections() {
     var d = customDecks[i];
     var cd = {type:'custom', id:d.id};
     var cdWords = getDeckWordIndices(cd);
-    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝</div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '</div><div class="deck-meta">' + d.wordIndices.length + ' personal words</div>' + roundCounterHtml('custom_' + d.id) + '<div style="display:flex;gap:8px;margin-top:10px"><button class="round-counter-btn" onclick="event.stopPropagation();renameCustomDeck(\'' + d.id + '\')">✏️ Rename</button><button class="round-counter-btn" onclick="event.stopPropagation();confirmDeleteCustomDeck(\'' + d.id + '\')">🗑️ Delete</button></div></div><div class="deck-arrow">›</div></div>';
+    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝</div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '</div><div class="deck-meta">' + d.wordIndices.length + ' personal words</div>' + roundCounterHtml('custom_' + d.id) + '<div class="custom-deck-actions"><button class="custom-deck-action" onclick="event.stopPropagation();renameCustomDeck(\'' + d.id + '\')">✏️ Rename</button><button class="custom-deck-action delete" onclick="event.stopPropagation();confirmDeleteCustomDeck(\'' + d.id + '\')">🗑️ Delete</button></div></div><div class="deck-arrow">›</div></div>';
   }
   document.getElementById('customDecks').innerHTML = customHtml;
 }
