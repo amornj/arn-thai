@@ -421,7 +421,7 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
     <div id="bookmarkDeck"></div>
   </div>
   <div class="deck-section">
-    <div class="deck-section-title">📝 Custom Decks</div>
+    <div class="deck-section-title">📝 Custom Deck</div>
     <div id="customDecks"></div>
   </div>
   <button class="action-btn primary" style="width:100%;margin-bottom:12px;padding:20px" onclick="startAdaptive()">
@@ -554,6 +554,9 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
     <div class="custom-input-wrap">
       <input type="text" class="custom-input" id="customWordInput" placeholder="Thai word..." autocomplete="off" spellcheck="false">
       <textarea class="custom-textarea" id="customMeaningInput" placeholder="English meaning / definition..."></textarea>
+      <input type="text" class="custom-input" id="customPosInput" placeholder="Part of speech (optional)..." autocomplete="off">
+      <textarea class="custom-textarea" id="customThaiDefInput" placeholder="Thai definition (optional)..."></textarea>
+      <textarea class="custom-textarea" id="customSampleInput" placeholder="Example sentence (optional)..."></textarea>
       <button class="custom-add-btn" onclick="addCustomWord()">➕ Add Word</button>
     </div>
     <div class="custom-list" id="customList"></div>
@@ -6996,27 +6999,36 @@ function toggleBookmark(word) {
 }
 
 // ============ CUSTOM DECKS ============
+var DEFAULT_CUSTOM_DECK_NAME = 'My Thai Words';
 function getCustomDecks() {
   if (!currentStudent.customDecks) currentStudent.customDecks = [];
   return currentStudent.customDecks;
 }
+function ensureSingleCustomDeck() {
+  var customWords = getCustomWords();
+  var customWordNames = customWords.map(function(w) { return w.word; });
+  var existing = getCustomDecks();
+  var name = existing.length === 1 && existing[0].name ? existing[0].name : DEFAULT_CUSTOM_DECK_NAME;
+  var id = existing.length === 1 && existing[0].id ? existing[0].id : 'custom_words';
+  currentStudent.customDecks = [{id: id, name: name, wordIndices: customWordNames}];
+  saveStudent(currentStudent);
+  return currentStudent.customDecks[0];
+}
 function saveCustomDecks() {
   saveStudent(currentStudent);
 }
-function createCustomDeck(name) {
-  var decks = getCustomDecks();
-  var id = 'deck_' + Date.now();
-  decks.push({id: id, name: name, wordIndices: []});
-  saveCustomDecks();
-  return id;
-}
-function deleteCustomDeck(id) {
-  var decks = getCustomDecks();
-  var idx = decks.findIndex(function(d) { return d.id === id; });
-  if (idx !== -1) { decks.splice(idx, 1); saveCustomDecks(); }
-}
 function getCustomDeck(id) {
   return getCustomDecks().find(function(d) { return d.id === id; });
+}
+function renameCustomDeck(id) {
+  var deck = getCustomDeck(id);
+  if (!deck) return;
+  var name = prompt('Rename custom deck:', deck.name);
+  if (!name || !name.trim()) return;
+  deck.name = name.trim();
+  saveCustomDecks();
+  renderDashboard();
+  showToast('Deck renamed');
 }
 
 // ============ DECK WORD INDICES ============
@@ -7152,6 +7164,7 @@ function recordStudyActivity() {
 
 function selectStudent(name) {
   currentStudent = loadStudent(name);
+  ensureSingleCustomDeck();
   localStorage.setItem('arnthai_lastStudent', name);
   document.getElementById('studentSelect').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
@@ -7379,9 +7392,8 @@ function renderDeckSections() {
     var d = customDecks[i];
     var cd = {type:'custom', id:d.id};
     var cdWords = getDeckWordIndices(cd);
-    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝</div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '</div><div class="deck-meta">' + d.wordIndices.length + ' words</div>' + roundCounterHtml('custom_' + d.id) + '</div><div class="deck-arrow">›</div></div>';
+    customHtml += '<div class="deck-card custom" role="button" style="cursor:pointer" onclick="selectDeck(' + JSON.stringify(cd).replace(/"/g, "&quot;") + ')"><div class="deck-icon">📝</div><div class="deck-info"><div class="deck-name">' + d.name + bookmarkBadgeHtml(cdWords) + '</div><div class="deck-meta">' + d.wordIndices.length + ' personal words</div>' + roundCounterHtml('custom_' + d.id) + '<div style="display:flex;gap:8px;margin-top:10px"><button class="round-counter-btn" onclick="event.stopPropagation();renameCustomDeck(\'' + d.id + '\')">✏️ Rename</button><button class="round-counter-btn" onclick="event.stopPropagation();confirmDeleteCustomDeck(\'' + d.id + '\')">🗑️ Delete</button></div></div><div class="deck-arrow">›</div></div>';
   }
-  customHtml += '<div class="deck-card create-new" role="button" style="cursor:pointer" onclick="openDeckNameModal()"><div class="deck-icon">➕</div><div class="deck-info"><div class="deck-name">Create New Deck</div><div class="deck-meta">Build your own word list</div></div></div>';
   document.getElementById('customDecks').innerHTML = customHtml;
 }
 
@@ -7420,7 +7432,7 @@ function showModeSelect() {
     '<button class="mode-btn flash" onclick="startFlashMode()"><div class="mode-icon">🔄</div><div class="mode-info"><div class="mode-name">Flash</div><div class="mode-desc">' + flashSub + ' · Flip cards, no tracking</div></div></button>' +
     '<button class="mode-btn srs" onclick="startSRSMode()"><div class="mode-icon">📖</div><div class="mode-info"><div class="mode-name">SRS</div><div class="mode-desc">' + srsSub + ' · Spaced repetition</div></div></button>' +
     '<button class="mode-btn quiz" onclick="startQuizMode()"' + (wordCount < 4 ? ' disabled style="opacity:0.5"' : '') + '><div class="mode-icon">📝</div><div class="mode-info"><div class="mode-name">Quiz</div><div class="mode-desc">' + quizSub + ' · MCQ test</div></div></button>' +
-    (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="openDeckBuilder(\'' + selectedDeck.id + '\')">📝 Edit Deck Words</button>' : '') +
+    (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="renameCustomDeck(\'' + selectedDeck.id + '\')">✏️ Rename Deck</button>' : '') +
     (selectedDeck.type === 'custom' ? '<button class="mode-back-btn" onclick="confirmDeleteCustomDeck(\'' + selectedDeck.id + '\')">🗑️ Delete This Deck</button>' : '') +
     '<button class="mode-back-btn" onclick="backToDashboard()">← Back to Dashboard</button>' +
     '</div>';
@@ -7739,7 +7751,6 @@ function exitStudy() {
 function openBrowseMode() {
   document.getElementById('browseOverlay').classList.add('active');
   renderBrowseTabs();
-  renderBrowseList(1);
 }
 function closeBrowseMode() {
   document.getElementById('browseOverlay').classList.remove('active');
@@ -7759,6 +7770,16 @@ function renderBrowseTabs() {
     renderBrowseBookmarks();
   };
   container.appendChild(bmTab);
+  var custom = getCustomWords();
+  var customTab = document.createElement('div');
+  customTab.className = 'browse-tab';
+  customTab.textContent = '✍️ Custom (' + custom.length + ')';
+  customTab.onclick = function() {
+    document.querySelectorAll('.browse-tab').forEach(function(t) { t.classList.remove('active'); });
+    customTab.classList.add('active');
+    renderBrowseCustom();
+  };
+  container.appendChild(customTab);
   for (var lvl = 1; lvl <= 6; lvl++) {
     (function(level) {
       var tab = document.createElement('div');
@@ -7774,6 +7795,18 @@ function renderBrowseTabs() {
     })(lvl);
   }
   renderBrowseBookmarks();
+}
+function renderBrowseCustom() {
+  var container = document.getElementById('browseContent');
+  var words = getCustomWords();
+  if (words.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);">No custom words yet.<br>Add your own Thai words from the dashboard.</div>';
+    return;
+  }
+  container.innerHTML = words.map(function(w) {
+    var bmIcon = isBookmarked(w.word) ? '🔖' : '🏷️';
+    return '<div class="browse-item"><div class="browse-item-top"><span class="word">' + w.word + '</span><span class="pos">' + (w.pos || '') + '</span><button class="bookmark-btn-inline' + (isBookmarked(w.word) ? ' active' : '') + '" data-bm-word="' + w.word + '" onclick="toggleBookmark(\'' + w.word.replace(/'/g, "\\'") + '\')">' + bmIcon + '</button></div><div class="def">' + (w.english || '') + '</div>' + (w.thai_def ? '<div class="thai-def">' + w.thai_def + '</div>' : '') + (w.sample ? '<div class="sentence">' + w.sample + '</div>' : '') + '</div>';
+  }).join('');
 }
 function renderBrowseBookmarks() {
   var container = document.getElementById('browseContent');
@@ -7964,9 +7997,10 @@ function performSearch(query) {
   query = query.trim().toLowerCase();
   if (!query) { document.getElementById('searchResults').innerHTML = ''; searchResultsArr = []; searchSelectedIdx = -1; return; }
   var results = [];
-  for (var i = 0; i < WORDS.length; i++) {
-    var w = WORDS[i];
-    if (w.word.toLowerCase().indexOf(query) !== -1 || (w.english && w.english.toLowerCase().indexOf(query) !== -1)) {
+  var allWords = getCustomWords().concat(WORDS);
+  for (var i = 0; i < allWords.length; i++) {
+    var w = allWords[i];
+    if (w.word.toLowerCase().indexOf(query) !== -1 || (w.english && w.english.toLowerCase().indexOf(query) !== -1) || (w.thai_def && w.thai_def.toLowerCase().indexOf(query) !== -1) || (w.sample && w.sample.toLowerCase().indexOf(query) !== -1)) {
       results.push(w);
       if (results.length >= 20) break;
     }
@@ -7984,7 +8018,7 @@ function renderSearchResults() {
   var html = '';
   for (var i = 0; i < searchResultsArr.length; i++) {
     var w = searchResultsArr[i];
-    var levelName = LEVELS[w.level] ? LEVELS[w.level].name : 'Level ' + w.level;
+    var levelName = w.isCustom ? 'Custom' : (LEVELS[w.level] ? LEVELS[w.level].name : 'Custom');
     var cls = i === searchSelectedIdx ? 'search-result-item selected' : 'search-result-item';
     html += '<div class="' + cls + '" onclick="openWordFromSearch(' + i + ')" data-idx="' + i + '">' +
       '<div class="search-result-word">' + w.word + ' <span class="search-result-meta">' + levelName + ' · ' + (w.pos || '') + '</span></div>' +
@@ -7996,7 +8030,7 @@ function renderSearchResults() {
 function openWordFromSearch(resultIdx) {
   var w = searchResultsArr[resultIdx];
   if (!w) return;
-  var deck = {type:'premade', subtype:'level', level:w.level};
+  var deck = w.isCustom ? {type:'custom', id:ensureSingleCustomDeck().id} : {type:'premade', subtype:'level', level:w.level};
   selectedDeck = deck;
   var words = getDeckWordIndices(deck);
   studyQueue = words;
@@ -8031,7 +8065,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============ CUSTOM WORDS ============
 function getCustomWords() {
   var raw = localStorage.getItem('arnthai_customWords_' + currentStudent.name);
-  return raw ? JSON.parse(raw) : [];
+  var words = raw ? JSON.parse(raw) : [];
+  return words.map(function(w) {
+    w.isCustom = true;
+    return w;
+  });
 }
 function saveCustomWords(words) {
   localStorage.setItem('arnthai_customWords_' + currentStudent.name, JSON.stringify(words));
@@ -8040,6 +8078,9 @@ function openCustomModal() {
   document.getElementById('customOverlay').classList.add('active');
   document.getElementById('customWordInput').value = '';
   document.getElementById('customMeaningInput').value = '';
+  document.getElementById('customPosInput').value = '';
+  document.getElementById('customThaiDefInput').value = '';
+  document.getElementById('customSampleInput').value = '';
   renderCustomList();
   setTimeout(function() { document.getElementById('customWordInput').focus(); }, 50);
 }
@@ -8049,21 +8090,37 @@ function closeCustomModal() {
 function addCustomWord() {
   var word = document.getElementById('customWordInput').value.trim();
   var meaning = document.getElementById('customMeaningInput').value.trim();
+  var pos = document.getElementById('customPosInput').value.trim();
+  var thaiDef = document.getElementById('customThaiDefInput').value.trim();
+  var sample = document.getElementById('customSampleInput').value.trim();
   if (!word || !meaning) { showToast('Please enter both word and meaning'); return; }
   var custom = getCustomWords();
   if (custom.some(function(w) { return w.word === word; })) { showToast('"' + word + '" already in custom list'); return; }
-  custom.push({word: word, english: meaning, pos: 'custom', thai_def: '', sample: ''});
+  custom.push({word: word, english: meaning, pos: pos || 'custom', thai_def: thaiDef, sample: sample, isCustom: true});
   saveCustomWords(custom);
+  var deck = ensureSingleCustomDeck();
+  if (deck.wordIndices.indexOf(word) === -1) deck.wordIndices.push(word);
+  saveCustomDecks();
   document.getElementById('customWordInput').value = '';
   document.getElementById('customMeaningInput').value = '';
+  document.getElementById('customPosInput').value = '';
+  document.getElementById('customThaiDefInput').value = '';
+  document.getElementById('customSampleInput').value = '';
   renderCustomList();
   document.getElementById('customWordInput').focus();
   showToast('Added "' + word + '"');
 }
 function deleteCustomWord(idx) {
   var custom = getCustomWords();
-  custom.splice(idx, 1);
+  var removed = custom.splice(idx, 1)[0];
   saveCustomWords(custom);
+  if (removed) {
+    var deck = ensureSingleCustomDeck();
+    deck.wordIndices = deck.wordIndices.filter(function(w) { return w !== removed.word; });
+    currentStudent.bookmarks = (currentStudent.bookmarks || []).filter(function(w) { return w !== removed.word; });
+    delete currentStudent.progress[removed.word];
+    saveStudent(currentStudent);
+  }
   renderCustomList();
   showToast('Deleted');
 }
@@ -8196,9 +8253,16 @@ function updateDeckBuilderSelected() {
 function confirmDeleteCustomDeck(deckId) {
   var deck = getCustomDeck(deckId);
   if (!deck) return;
-  if (confirm('Delete deck "' + deck.name + '"? This cannot be undone.')) {
-    deleteCustomDeck(deckId);
-    showToast('Deck deleted');
+  if (confirm('Delete "' + deck.name + '" and all custom words? Their bookmarks and study progress will also be removed. This cannot be undone.')) {
+    var words = getCustomWords().map(function(w) { return w.word; });
+    var wordSet = new Set(words);
+    currentStudent.bookmarks = (currentStudent.bookmarks || []).filter(function(w) { return !wordSet.has(w); });
+    words.forEach(function(w) { delete currentStudent.progress[w]; });
+    saveCustomWords([]);
+    currentStudent.customDecks = [{id:'custom_words', name:DEFAULT_CUSTOM_DECK_NAME, wordIndices:[]}];
+    saveStudent(currentStudent);
+    selectedDeck = null;
+    showToast('Custom words deleted');
     backToDashboard();
   }
 }
@@ -8248,6 +8312,7 @@ window.openCustomModal = openCustomModal;
 window.closeCustomModal = closeCustomModal;
 window.addCustomWord = addCustomWord;
 window.deleteCustomWord = deleteCustomWord;
+window.renameCustomDeck = renameCustomDeck;
 window.openSettings = openSettings;
 window.closeSettings = closeSettings;
 window.saveSettings = saveSettings;
