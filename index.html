@@ -8,7 +8,7 @@
 <title>Arn Thai — Thai Vocabulary Learning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Thai:wght@400;500;600;700;800&family=Noto+Serif+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --teal: #0D9488; --teal-dark: #0891B2; --gold: #D4A017; --gold-dark: #B8900F;
@@ -17,9 +17,11 @@
   --bg: #FAF8F5; --bg-card: #FFFFFF; --text: #2D2D2D; --text-light: #666; --text-muted: #999;
   --shadow: 0 2px 12px rgba(0,0,0,0.08); --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
   --radius: 16px; --radius-sm: 10px; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --font-ui: 'Inter','Sarabun','TH Sarabun New',Tahoma,sans-serif;
+  --font-thai: 'Sarabun','TH Sarabun New',Tahoma,sans-serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+body { font-family:var(--font-ui); background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
 
 .student-select { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:20px; background:linear-gradient(135deg,#0D9488 0%,#0891B2 50%,#6366F1 100%); }
 .student-select h1 { font-size:2.2rem; color:#FFF; margin-bottom:8px; text-align:center; font-weight:800; }
@@ -115,11 +117,11 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .flashcard.flipped { transform:rotateY(180deg); }
 .flashcard-face { backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .flashcard-back { position:absolute; top:0; left:0; right:0; bottom:0; transform:rotateY(180deg); backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:32px 24px; }
-.flashcard .word { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:3rem; font-weight:800; margin-bottom:8px; line-height:1.2; color:var(--text); }
+.flashcard .word { font-family:var(--font-thai); font-size:3rem; font-weight:800; margin-bottom:8px; line-height:1.3; color:var(--text); }
 .flashcard .pos { font-size:1.1rem; color:var(--teal); margin-bottom:12px; font-weight:500; font-style:italic; }
 .flashcard .def { font-size:1.05rem; color:var(--text); margin-bottom:16px; line-height:1.5; }
-.flashcard .thai-def { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:0.95rem; color:var(--text-light); margin-bottom:12px; line-height:1.5; text-align:left; width:100%; padding:8px 12px; background:#FAF8F5; border-radius:10px; border-left:3px solid var(--teal); }
-.flashcard .sentence { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:0.95rem; color:var(--text-light); line-height:1.5; padding:12px; background:#F8F9FA; border-radius:12px; border-left:3px solid var(--gold); text-align:left; width:100%; }
+.flashcard .thai-def { font-family:var(--font-thai); font-size:0.95rem; color:var(--text-light); margin-bottom:12px; line-height:1.65; text-align:left; width:100%; padding:8px 12px; background:#FAF8F5; border-radius:10px; border-left:3px solid var(--teal); }
+.flashcard .sentence { font-family:var(--font-thai); font-size:0.95rem; color:var(--text-light); line-height:1.65; padding:12px; background:#F8F9FA; border-radius:12px; border-left:3px solid var(--gold); text-align:left; width:100%; }
 .flashcard .sentence-label { font-family:'Inter',sans-serif; font-size:0.7rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px; }
 .tap-hint { color:var(--text-muted); font-size:0.85rem; margin-top:16px; }
 
@@ -144,7 +146,7 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .quiz-card { width:100%; max-width:500px; background:var(--bg-card); border-radius:var(--radius); box-shadow:var(--shadow-lg); padding:24px; margin-bottom:20px; }
 .quiz-prompt { text-align:center; margin-bottom:24px; }
 .quiz-prompt .label { font-size:0.85rem; color:var(--text-light); margin-bottom:8px; }
-.quiz-prompt .text { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:2rem; font-weight:700; }
+.quiz-prompt .text { font-family:var(--font-thai); font-size:2rem; font-weight:700; line-height:1.35; }
 .quiz-prompt .sub { font-size:1rem; color:var(--text-light); margin-top:4px; }
 .quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .quiz-option { background:#F5F5F5; border:2px solid transparent; border-radius:var(--radius-sm); padding:20px 12px; text-align:center; font-size:1rem; cursor:pointer; transition:var(--transition); }
@@ -170,7 +172,7 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .session-word-list-section { width:100%; max-width:500px; margin-bottom:24px; }
 .session-word-list-title { font-size:1rem; font-weight:700; margin-bottom:12px; text-align:center; color:var(--text); }
 .session-word-list { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-.session-word-item { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:1.1rem; font-weight:700; background:var(--bg-card); border-radius:8px; padding:8px 14px; box-shadow:var(--shadow); }
+.session-word-item { font-family:var(--font-thai); font-size:1.1rem; font-weight:700; background:var(--bg-card); border-radius:8px; padding:8px 14px; box-shadow:var(--shadow); }
 
 .celebration { position:fixed; top:0; left:0; right:0; bottom:0; z-index:999; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); }
 .celebration.active { display:flex; animation:fadeIn 0.3s; }
@@ -216,11 +218,11 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .browse-tab.active { background:var(--teal); color:white; }
 .browse-list { padding:0 16px 20px; }
 .browse-item { background:var(--bg-card); border-radius:12px; padding:16px; margin-bottom:8px; box-shadow:var(--shadow); }
-.browse-item .word { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:1.3rem; font-weight:700; }
+.browse-item .word { font-family:var(--font-thai); font-size:1.3rem; font-weight:700; line-height:1.4; }
 .browse-item .pos { font-size:0.9rem; color:var(--teal); font-style:italic; margin-left:6px; }
 .browse-item .def { font-size:0.9rem; color:var(--text-light); margin-top:4px; }
-.browse-item .thai-def { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:0.88rem; color:var(--text-muted); margin-top:4px; }
-.browse-item .sentence { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:0.85rem; color:var(--text-muted); margin-top:6px; }
+.browse-item .thai-def { font-family:var(--font-thai); font-size:0.88rem; line-height:1.55; color:var(--text-muted); margin-top:4px; }
+.browse-item .sentence { font-family:var(--font-thai); font-size:0.85rem; line-height:1.55; color:var(--text-muted); margin-top:6px; }
 
 .bookmark-row { width:100%; max-width:420px; display:flex; justify-content:flex-end; margin-bottom:4px; }
 .bookmark-btn { background:none; border:none; font-size:1.4rem; cursor:pointer; padding:4px 8px; transition:var(--transition); opacity:0.6; }
@@ -258,7 +260,7 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .search-results { max-height:300px; overflow-y:auto; padding:0 8px 8px; }
 .search-result-item { padding:12px 16px; border-radius:10px; cursor:pointer; transition:background 0.15s; display:flex; flex-direction:column; gap:2px; }
 .search-result-item:hover, .search-result-item.selected { background:#F0F8F6; }
-.search-result-word { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:1.1rem; font-weight:700; }
+.search-result-word { font-family:var(--font-thai); font-size:1.1rem; font-weight:700; }
 .search-result-meta { font-size:0.8rem; color:var(--text-light); font-family:'Inter',sans-serif; }
 .search-result-def { font-size:0.85rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .search-empty { padding:20px; text-align:center; color:var(--text-muted); font-size:0.9rem; }
@@ -276,7 +278,7 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .custom-textarea:focus { border-color:var(--teal); }
 .custom-list { max-height:200px; overflow-y:auto; padding:0 8px 8px; }
 .custom-list-item { padding:10px 14px; border-radius:10px; display:flex; align-items:center; gap:8px; background:#F8F9FA; margin-bottom:6px; }
-.custom-list-item .word { font-family:'Noto Sans Thai','Inter',sans-serif; font-weight:700; font-size:0.95rem; flex:1; }
+.custom-list-item .word { font-family:var(--font-thai); font-weight:700; font-size:0.95rem; flex:1; }
 .custom-list-item .meaning { font-size:0.85rem; color:var(--text-light); flex:2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .custom-list-item .del-btn { background:none; border:none; font-size:1.1rem; cursor:pointer; padding:2px 6px; opacity:0.5; transition:opacity 0.2s; }
 .custom-list-item .del-btn:hover { opacity:1; }
@@ -339,7 +341,7 @@ body { font-family:'Inter','Noto Sans Thai',sans-serif; background:var(--bg); co
 .deck-builder-results { flex:1; overflow-y:auto; padding:0 16px 16px; }
 .deck-builder-item { background:var(--bg-card); border-radius:10px; padding:12px 14px; margin-bottom:6px; box-shadow:var(--shadow); display:flex; align-items:center; gap:8px; }
 .deck-builder-item .word-info { flex:1; }
-.deck-builder-item .word-text { font-family:'Noto Sans Thai','Inter',sans-serif; font-size:1.1rem; font-weight:700; }
+.deck-builder-item .word-text { font-family:var(--font-thai); font-size:1.1rem; font-weight:700; }
 .deck-builder-item .word-meta { font-size:0.8rem; color:var(--text-light); }
 .deck-builder-item .add-to-deck-btn { background:var(--purple); color:white; border:none; border-radius:8px; padding:6px 12px; font-size:0.8rem; font-weight:600; cursor:pointer; transition:var(--transition); flex-shrink:0; }
 .deck-builder-item .add-to-deck-btn:hover { opacity:0.85; }
